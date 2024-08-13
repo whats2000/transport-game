@@ -4,15 +4,15 @@ import { Router as RouterClass } from '../../game/Router.ts';
 import { Tooltip } from 'antd';
 
 const RouterStyled = styled.div<{
-  gridColumn: string;
-  gridRow: string;
+  x: number;
+  y: number;
   backgroundColor: string;
 }>`
   width: 10px;
   height: 10px;
   background-color: ${({ backgroundColor }) => backgroundColor};
-  grid-column: ${({ gridColumn }) => gridColumn};
-  grid-row: ${({ gridRow }) => gridRow};
+  grid-column: ${({ x }) => x + 1} / span 1;
+  grid-row: ${({ y }) => y + 1} / span 1;
 `;
 
 const Router: React.FC<{ router: RouterClass }> = ({ router }) => {
@@ -20,8 +20,8 @@ const Router: React.FC<{ router: RouterClass }> = ({ router }) => {
   return (
     <Tooltip title={router.render()}>
       <RouterStyled
-        gridColumn={router.gridColumn}
-        gridRow={router.gridRow}
+        x={router.x}
+        y={router.y}
         backgroundColor={backgroundColor}
       />
     </Tooltip>

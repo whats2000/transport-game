@@ -1,11 +1,11 @@
 import { GameObject } from './GameObject';
 
 export class Server extends GameObject {
-  constructor(gridColumn: string, gridRow: string) {
-    super(gridColumn, gridRow);
+  constructor(x: number, y: number) {
+    super(x, y);
   }
 
   render(): string {
-    return `Server at [${this.gridColumn}, ${this.gridRow}]`;
+    return `Server at (${this.x}, ${this.y})`;
   }
 }

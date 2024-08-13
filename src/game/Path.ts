@@ -5,61 +5,32 @@ export class Path extends GameObject {
   end: GameObject;
 
   constructor(start: GameObject, end: GameObject) {
-    super('', ''); // gridColumn and gridRow will be managed differently
+    super(0, 0); // Path does not have a single x, y position
     this.start = start;
     this.end = end;
   }
 
-  // Function to generate the path between start and end without crashing into other objects
-  generatePath(
-    existingObjects: GameObject[],
-  ): { gridColumn: string; gridRow: string }[] {
+  // Generate path coordinates between start and end
+  generatePath(): { x: number; y: number }[] {
     const path = [];
 
-    let currentCol = parseInt(this.start.gridColumn.split(' ')[0]);
-    let currentRow = parseInt(this.start.gridRow.split(' ')[0]);
-    const endCol = parseInt(this.end.gridColumn.split(' ')[0]);
-    const endRow = parseInt(this.end.gridRow.split(' ')[0]);
+    let currentX = this.start.x;
+    let currentY = this.start.y;
 
-    // Move horizontally first
-    while (currentCol !== endCol) {
-      if (!this.isCollision(currentCol, currentRow, existingObjects)) {
-        path.push({
-          gridColumn: `${currentCol} / span 1`,
-          gridRow: `${currentRow} / span 1`,
-        });
-      }
-      currentCol += currentCol < endCol ? 1 : -1;
+    while (currentX !== this.end.x) {
+      path.push({ x: currentX, y: currentY });
+      currentX += currentX < this.end.x ? 1 : -1;
     }
 
-    // Then move vertically
-    while (currentRow !== endRow) {
-      if (!this.isCollision(currentCol, currentRow, existingObjects)) {
-        path.push({
-          gridColumn: `${currentCol} / span 1`,
-          gridRow: `${currentRow} / span 1`,
-        });
-      }
-      currentRow += currentRow < endRow ? 1 : -1;
+    while (currentY !== this.end.y) {
+      path.push({ x: currentX, y: currentY });
+      currentY += currentY < this.end.y ? 1 : -1;
     }
 
     return path;
   }
 
-  // Helper function to check if a position is occupied
-  private isCollision(
-    col: number,
-    row: number,
-    existingObjects: GameObject[],
-  ): boolean {
-    return existingObjects.some(
-      (obj) =>
-        parseInt(obj.gridColumn.split(' ')[0]) === col &&
-        parseInt(obj.gridRow.split(' ')[0]) === row,
-    );
-  }
-
   render(): string {
-    return `Path from ${this.start.gridColumn}, ${this.start.gridRow} to ${this.end.gridColumn}, ${this.end.gridRow}`;
+    return `Path from (${this.start.x}, ${this.start.y}) to (${this.end.x}, ${this.end.y})`;
   }
 }

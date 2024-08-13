@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { City, Path, Router, Server } from './MapComponents';
 import {
   City as CityClass,
-  GameObject,
   Path as PathClass,
   Router as RouterClass,
   Server as ServerClass,
@@ -20,20 +19,21 @@ const Grid = styled.div`
 
 const Map: React.FC = () => {
   const cities = [
-    new CityClass('City 1', '5 / span 3', '10 / span 3'),
-    new CityClass('City 2', '45 / span 3', '10 / span 3'),
-    new CityClass('City 3', '5 / span 3', '40 / span 3'),
-    new CityClass('City 4', '45 / span 3', '40 / span 3'),
-    new CityClass('City 5', '25 / span 3', '48 / span 3'),
+    new CityClass('City 1', 5, 10),
+    new CityClass('City 2', 45, 10),
+    new CityClass('City 3', 5, 40),
+    new CityClass('City 4', 45, 40),
+    new CityClass('City 5', 25, 48),
+    new CityClass('City 5', 16, 48),
   ];
 
-  const server = new ServerClass('24 / span 5', '1 / span 5');
+  const server = new ServerClass(25, 2);
 
   const routers = [
-    new RouterClass('cross', '26 / span 1', '11 / span 1'),
-    new RouterClass('t', '26 / span 1', '41 / span 1'),
-    new RouterClass('t', '16 / span 1', '11 / span 1'),
-    new RouterClass('t', '16 / span 1', '41 / span 1'),
+    new RouterClass('cross', 25, 10),
+    new RouterClass('t', 25, 40),
+    new RouterClass('t', 16, 10),
+    new RouterClass('t', 16, 40),
   ];
 
   // Create paths between objects
@@ -47,15 +47,13 @@ const Map: React.FC = () => {
     new PathClass(routers[2], cities[0]),
     new PathClass(routers[2], routers[3]),
     new PathClass(routers[3], cities[2]),
+    new PathClass(cities[5], routers[3]),
   ];
-
-  // Generate path coordinates, ensuring no collisions with existing objects
-  const existingObjects: GameObject[] = [...cities, server, ...routers];
 
   return (
     <Grid>
       {paths.map((pathObj, index) => (
-        <Path key={index} pathObj={pathObj} existingObjects={existingObjects} />
+        <Path key={index} pathObj={pathObj} />
       ))}
 
       <Server server={server} />

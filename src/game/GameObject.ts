@@ -1,10 +1,10 @@
 export abstract class GameObject {
-  gridColumn: string;
-  gridRow: string;
+  x: number;
+  y: number;
 
-  protected constructor(gridColumn: string, gridRow: string) {
-    this.gridColumn = gridColumn;
-    this.gridRow = gridRow;
+  protected constructor(x: number, y: number) {
+    this.x = x;
+    this.y = y;
   }
 
   // Abstract method to be implemented by derived classes

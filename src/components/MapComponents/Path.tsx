@@ -1,30 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Path as PathClass } from '../../game/Path.ts';
-import { GameObject } from '../../game/GameObject.ts';
+import { Path as PathClass } from '../../game';
 
-const PathSegmentStyled = styled.div<{ gridColumn: string; gridRow: string }>`
+const PathSegmentStyled = styled.div<{ x: number; y: number }>`
   width: 10px;
   height: 10px;
   background-color: #ccc;
-  grid-column: ${({ gridColumn }) => gridColumn};
-  grid-row: ${({ gridRow }) => gridRow};
+  grid-column: ${({ x }) => x + 1};
+  grid-row: ${({ y }) => y + 1};
 `;
 
-const Path: React.FC<{ pathObj: PathClass; existingObjects: GameObject[] }> = ({
-  pathObj,
-  existingObjects,
-}) => {
-  const pathSegments = pathObj.generatePath(existingObjects);
+const Path: React.FC<{ pathObj: PathClass }> = ({ pathObj }) => {
+  const pathSegments = pathObj.generatePath();
 
   return (
     <>
       {pathSegments.map((segment, index) => (
-        <PathSegmentStyled
-          key={index}
-          gridColumn={segment.gridColumn}
-          gridRow={segment.gridRow}
-        />
+        <PathSegmentStyled key={index} x={segment.x} y={segment.y} />
       ))}
     </>
   );
